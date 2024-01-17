@@ -10,6 +10,9 @@ def minOperations(n):
     text editor can execute only two operations in this file copy All and Paste
     give the min num of operations to achieve n times of H
     """
+    if not isinstance(n, int):
+        return 0
+
     string = "H"
     copy = lambda src: src
     paste = lambda string1, string2: string1 + string2
