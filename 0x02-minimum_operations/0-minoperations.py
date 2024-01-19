@@ -5,28 +5,14 @@ python function that solves minimum operations
 
 
 def minOperations(n):
-    """
-    a text file there is a single char H your
-    text editor can execute only two operations in this file copy All and Paste
-    give the min num of operations to achieve n times of H
-    """
-    if not isinstance(n, int):
+    """method that calculates the fewest number of operations"""
+    if n <= 1:
         return 0
-
-    string = "H"
-    copy = lambda src: src
-    paste = lambda string1, string2: string1 + string2
-    numberOfOperations = 0
-    typeOfn = "odd" if n % 2 != 0 else "even"
-
-    while len(string) < n:
-        if n % len(string) == 0:
-            strCopied = copy(string)
-            string = paste(strCopied, string)
-            numberOfOperations += 2
-
-        else:
-            string = paste(strCopied, string)
-            numberOfOperations += 1
-
-    return numberOfOperations
+    operations = 0
+    divisor = 2
+    while n > 1:
+        while n % divisor == 0:
+            operations += divisor
+            n //= divisor
+        divisor += 1
+    return operations
