@@ -21,9 +21,7 @@ if __name__ == "__main__":
 
     try:
         """ Read stdin line by line """
-        while True:
-            line = sys.stdin.readline()
-
+        for line in sys.stdin:
             if not line:
                 break
 
