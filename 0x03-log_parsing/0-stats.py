@@ -20,6 +20,7 @@ if __name__ == "__main__":
     sizePattern = re.compile("[0-9]{1,}$")
 
     try:
+        """ Read stdin line by line """
         while True:
             line = sys.stdin.readline()
 
@@ -45,8 +46,10 @@ if __name__ == "__main__":
                 numberOfLines = 0
 
     except KeyboardInterrupt:
+        """ handles the exception """
         print("File size:", sum(totalSize))
         for statusCode, number in statusList.items():
             if number == 0:
                 continue
             print(f"{statusCode}: {number}")
+        raise
