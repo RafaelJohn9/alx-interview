@@ -21,9 +21,10 @@ if __name__ == "__main__":
     sizePattern = re.compile("[0-9]{1,}$")
 
     while line:
-        if re.match(regex, line):
-            numberOfLines += 1
-            key = pattern.search(line).group().strip()
+        try:
+            if re.match(regex, line):
+                numberOfLines += 1
+                key = pattern.search(line).group().strip()
             if key in validStatus:
                 statusList[key] += 1
 
@@ -31,12 +32,21 @@ if __name__ == "__main__":
             if size_match:
                 totalSize.append(int(size_match.group()))
 
-        if numberOfLines == 10:
+            if numberOfLines == 10:
+                print("File size:", sum(totalSize))
+                
+                for statusCode, number in statusList.items():
+                    if number == 0:
+                        continue
+                    print(f"{statusCode}: {number}")
+                numberOfLines = 0
+            line = sys.stdin.readline()
+        except KeyboardInterrupt:
             print("File size:", sum(totalSize))
-
             for statusCode, number in statusList.items():
                 if number == 0:
                     continue
                 print(f"{statusCode}: {number}")
             numberOfLines = 0
-        line = sys.stdin.readline()
+            line = sys.stdin.readline()
+            continue
