@@ -30,8 +30,6 @@ if __name__ == "__main__":
             size_match = sizePattern.search(line)
             if size_match:
                 totalSize.append(int(size_match.group()))
-        else:
-            print("not march")
 
         if numberOfLines == 10:
             print("File size:", sum(totalSize))
