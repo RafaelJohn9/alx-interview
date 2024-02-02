@@ -1,26 +1,27 @@
 #!/usr/bin/python3
-"""a script that checks if it is valid utf-8"""
+"""module for the function validUTF8"""
+
+from typing import List
 
 
-def validUTF8(data):
-    """determines if a given data set represents a valid UTF-8 encoding"""
-    num_bytes = 0
-
-    for num in data:
-        if num_bytes == 0:
-            if (num >> 7) == 0b0:
-                continue
-            elif (num >> 5) == 0b110:
-                num_bytes = 1
-            elif (num >> 4) == 0b1110:
-                num_bytes = 2
-            elif (num >> 3) == 0b11110:
-                num_bytes = 3
-            else:
-                return False
-        else:
-            if (num >> 6) != 0b10:
-                return False
-            num_bytes -= 1
-
-    return num_bytes == 0
+def validUTF8(data: List[int]) -> bool:
+    """Returns True if a given data set represents a valid UTF-8 encoding."""
+    count = 0
+    for s in data:
+        binny = bin(s)[2:].zfill(8)[-8:]
+        if binny.startswith("0") and count == 0:
+            continue
+        if binny.startswith("110") and count == 0:
+            count = 1
+            continue
+        if binny.startswith("1110") and count == 0:
+            count = 2
+            continue
+        if binny.startswith("11110") and count == 0:
+            count = 3
+            continue
+        if binny.startswith("10") and count > 0:
+            count -= 1
+            continue
+        return False
+    return count == 0
