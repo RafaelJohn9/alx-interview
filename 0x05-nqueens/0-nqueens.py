@@ -1,56 +1,39 @@
 #!/usr/bin/python3
-def is_valid(board, row, col, N):
-    # Check if placing a queen at (row, col) is valid
-    for i in range(row):
-        if board[i] == col or \
-           board[i] - i == col - row or \
-           board[i] + i == col + row:
-            return False
-    return True
+"""
+The N queens puzzle is the challenge of placing N non-attacking queens
+on an NxN chessboard. Write a program that solves the N queens problem.
+"""
+
+import sys
 
 
-def print_solution(board):
-    # Convert the board to a list of coordinates and print it
-    solution = [[i, board[i]] for i in range(len(board))]
-    print(solution)
+def queen_down(N, i, queens, final_combo, col, pos, neg):
+    """recursive function to put down non attacking queens"""
+    if len(queens) == N:
+        final_combo.append(queens)
+        return final_combo
+    for j in range(N):
+        if not (j in col or i + j in pos or i - j in neg):
+            queen_down(N, i + 1, queens + [[i, j]], final_combo,
+                       col + [j], pos + [i + j], neg + [i - j])
+    return final_combo
 
 
-def solve_nqueens(board, row, N):
-    if row == N:
-        # All queens are placed, print the solution
-        print_solution(board)
-        return
+if len(sys.argv) != 2:
+    print("Usage: nqueens N")
+    sys.exit(1)
 
-    for col in range(N):
-        if is_valid(board, row, col, N):
-            # Place a queen at (row, col) and move on to the next row
-            board[row] = col
-            solve_nqueens(board, row + 1, N)
-            # Backtrack: undo the placement and try the next column
-            board[row] = -1
+try:
+    N = int(sys.argv[1])
+except ValueError:
+    print("N must be a number")
+    sys.exit(1)
 
-
-def nqueens(N):
-    # Initialize the chessboard with -1 indicating an empty square
-    board = [-1] * N
-    solve_nqueens(board, 0, N)
-
-
-if __name__ == "__main__":
-    import sys
-
-    if len(sys.argv) != 2:
-        print("Usage: ./script.py N")
-        sys.exit(1)
-
-    try:
-        N = int(sys.argv[1])
-    except ValueError:
-        print("N must be a number")
-        sys.exit(1)
-
-    if N < 4:
-        print("N must be at least 4")
-        sys.exit(1)
-
-    nqueens(N)
+if N < 4:
+    print("N must be at least 4")
+    sys.exit(1)
+queens = []
+col = pos = neg = []
+queen_down(N, 0, [], queens, col, pos, neg)
+for queen in queens:
+    print(queen)
