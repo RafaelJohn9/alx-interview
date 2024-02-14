@@ -19,7 +19,7 @@ async function main () {
   const movieUrl = 'https://swapi-api.alx-tools.com/api/films';
   const data = await fetchData(movieUrl);
 
-  const movie = data.results[movieNumber];
+  const movie = data.results[movieNumber - 1];
 
   for (const character of movie.characters) {
     const person = await fetchData(character);
