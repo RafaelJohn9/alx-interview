@@ -4,8 +4,17 @@ the nqueens problem
 """
 import sys
 
+def is_unique(coordinates, queens):
+    """
+    checks for the valid space for a queen
+    """
+
 
 def nqueens(N):
+    """
+    finds the max possile number of moves possible in a N X N
+    table for N number of queens
+    """
     if not int(N):
         print("N must be a number")
         sys.exit(1)
@@ -16,9 +25,13 @@ def nqueens(N):
 
     i = 0;
 
-    solutions = []
-    for row, column in zip(range(N), range(N)):
-        coordinates = [row, column]
-        if is_unique(coordinates):
-            solutions.append(coordinates)
-    print(solutions)
+    while (i < N):
+        solution = [[0, i]]
+        for x in range(N):
+            for y in range(N):
+                if  is_unique([x, y], solution):
+                    solution.append([x, y])
+
+        len (solution) == N:
+            print(solution)
+        i += 1
