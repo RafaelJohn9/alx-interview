@@ -13,7 +13,7 @@ def makeChange(coins, total):
     coins.sort()
     coins.reverse()
     fewestNumberOfCoins = 0
-    
+
     for coin in coins:
         coinDenomination = total // coin
         fewestNumberOfCoins += coinDenomination
