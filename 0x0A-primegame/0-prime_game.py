@@ -67,7 +67,7 @@ def isWinner(x, nums):
         else:
             gamesWon['Ben'] += 1
 
-    return "Winner: Maria" if gamesWon["Maria"] > gamesWon["Ben"] else "Winner: Ben"
+    return "Maria" if gamesWon["Maria"] > gamesWon["Ben"] else "Ben"
 
 
 if __name__=="__main__":
