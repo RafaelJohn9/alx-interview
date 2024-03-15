@@ -1,73 +1,70 @@
 #!/usr/bin/python3
-"""Maria and Ben are playing a game. Given a set of consecutive
-integers starting from 1 up to and including n, they take turns choosing a
-prime number from the set and removing that number and its multiples from
-the set. The player that cannot make a move loses the game.
+"""
+a prime game
+winner is the one whogets the final prime number
 """
 
 
-def is_prime(num):
-    """Check if a number is prime.
-
-    Args:
-        num (int): The number to check.
-
-    Returns:
-        bool: True if the number is prime, False otherwise.
+def sieveOfEratosthenes(n):
     """
-    if num <= 1:
-        return False
-    if num == 2:
-        return True
-    if num % 2 == 0:
-        return False
-    for i in range(3, int(num**0.5) + 1, 2):
-        if num % i == 0:
-            return False
-    return True
-
-
-def primes_up_to_n(n):
-    """Generate a list of prime numbers up to n.
-
-    Args:
-        n (int): The upper limit.
-
-    Returns:
-        list of int: A list of prime numbers up to n.
+    gets all the prime numbers in a certain range
+    and returns it in a list
     """
-    primes = []
-    for i in range(2, n + 1):
-        if is_prime(i):
-            primes.append(i)
-    return primes
+    if n <= 1:
+        return []
+
+    # gets all the numbers in range n
+    allNumbersInRange = [num for num in range(2, n + 1)]
+
+    # variables that will be used during the iteration
+    i = 0
+    factor = 2  # factors  of the number being sieved
+    number = allNumbersInRange[i]   # the number being sieved of its multiples
+    resultingNumber = factor * number # the resulting multiples
+
+    while i < len(allNumbersInRange):
+        if resultingNumber <= n:
+            # try block is used to make sure if a number is repeated its ignored
+            try:
+                index = allNumbersInRange.index(resultingNumber)
+            except ValueError:
+                factor += 1
+                resultingNumber = factor * number
+                continue
+
+            del(allNumbersInRange[index])
+
+            factor += 1
+            resultingNumber = factor * number
+            continue
+
+        factor = 2
+        i += 1
+        if i >= len(allNumbersInRange):
+                break
+        number = allNumbersInRange[i]
+        resultingNumber =  factor * number
+
+    return allNumbersInRange
 
 
 def isWinner(x, nums):
-    """Check who wins the most rounds in a game of removing primes
-    from consecutive integers.
-
-    Args:
-        x (int): The number of rounds.
-        nums (list of int): An array of n for each round.
-
-    Returns:
-        str or None: The name of the player that won the most rounds.
-        If the winner cannot be determined, returns None.
     """
-    maria_wins = 0
-    ben_wins = 0
+    determines the winner in the prime game
+    @x -> is the number of rounds
+    @nums -> a list that contains the ranges of n in an instance
+    """
+    gamesWon = {
+                  "Maria": 0,
+                  "Ben" : 0
+                  }
+    winner = lambda x: "Ben" if len(x) % 2 == 0 else "Maria"
 
-    for n in nums:
-        primes = primes_up_to_n(n)
-        if len(primes) % 2 == 0:
-            ben_wins += 1
+    for num in nums:
+        allPrimes = sieveOfEratosthenes(num)
+        if len(allPrimes) < (x * 2):
+            gamesWon[winner(allPrimes)] += 1
         else:
-            maria_wins += 1
+            allPrimes['Ben'] += 1
 
-    if maria_wins > ben_wins:
-        return "Maria"
-    elif maria_wins < ben_wins:
-        return "Ben"
-    else:
-        return None
+    return "Winner: Maria" if gamesWon["Maria"] > gamesWon["Ben"] else "Winner: Ben"
