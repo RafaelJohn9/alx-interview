@@ -67,8 +67,12 @@ def isWinner(x, nums):
         else:
             gamesWon['Ben'] += 1
 
-    return "Maria" if gamesWon["Maria"] > gamesWon["Ben"] else "Ben"
-
+    if gamesWon["Maria"] > gamesWon["Ben"]:
+        return "Maria"
+    elif gamesWon["Maria"] < gamesWon["Ben"]:
+        return "Ben"
+    else:
+        return None
 
 if __name__=="__main__":
     print(isWinner(2, [2, 5, 6, 8]))
