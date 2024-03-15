@@ -65,6 +65,10 @@ def isWinner(x, nums):
         if len(allPrimes) < (x * 2):
             gamesWon[winner(allPrimes)] += 1
         else:
-            allPrimes['Ben'] += 1
+            gamesWon['Ben'] += 1
 
     return "Winner: Maria" if gamesWon["Maria"] > gamesWon["Ben"] else "Winner: Ben"
+
+
+if __name__=="__main__":
+    print(isWinner(2, [2, 5, 6, 8]))
